@@ -73,11 +73,12 @@ public class LoginTest {
         back.click();
 
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(text(), 'Nauja registracija')]")));
-        boolean msgBox = driver.getPageSource().contains("Registracijos internetu");
+        //boolean msgBox = driver.getPageSource().contains("Registracijos internetu");
+        boolean isPresent = driver.findElements(By.xpath("//*[contains(text(), 'Antakalnio45')]")).size() > 0;
 
+        Assert.assertTrue(isPresent);
 
-
-        Assert.assertTrue(msgBox);
+        driver.quit();
     }
 
     @Test
@@ -85,20 +86,22 @@ public class LoginTest {
         System.setProperty("webdriver.chrome.driver", "C:/Intel/chromedriver.exe");
         WebDriver driver = new ChromeDriver();
         driver.get("http://bootjava8-itakade.rhcloud.com/#/home");
-        Thread.sleep(2000);
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("emailField")));
+
         WebElement mailInput = driver.findElement(By.id("emailField"));
         WebElement passwordInput = driver.findElement(By.id("passwordField"));
         mailInput.clear();
         mailInput.sendKeys("xxx");
         passwordInput.clear();
         passwordInput.sendKeys("12345678");
-        Thread.sleep(2000);
         WebElement loginButton = driver.findElement(By.xpath("//input[@type='submit']"));
         loginButton.click();
         Thread.sleep(2000);
         boolean msgBox = driver.getPageSource().contains("Susisiekite su mumis");
 
         Assert.assertFalse(msgBox);
+        driver.quit();
 
     }
 
