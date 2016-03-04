@@ -65,10 +65,17 @@ public class LoginTest {
         date.sendKeys(Today);
         topic.sendKeys("taupymas ir investavimas");
         comments.sendKeys("comment");
+
         WebElement submitRegistration = driver.findElement(By.xpath("//input[@type='submit']"));
         submitRegistration.click();
-        Thread.sleep(1500);
-        boolean msgBox = driver.getPageSource().contains("Registracijos patvirtinimas");
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//button[contains(.,'Atgal')]")));
+        WebElement back = driver.findElement(By.xpath("//button[contains(.,'Atgal')]"));
+        back.click();
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(text(), 'Nauja registracija')]")));
+        boolean msgBox = driver.getPageSource().contains("Registracijos internetu");
+
+
 
         Assert.assertTrue(msgBox);
     }
